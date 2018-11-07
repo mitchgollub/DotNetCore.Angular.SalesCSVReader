@@ -9,6 +9,13 @@ namespace DotNetCore.Angular.SalesCSVReader.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        private readonly TransactionDbContext _transactionDbContext;
+
+        public SampleDataController(TransactionDbContext transactionDbContext)
+        {
+            _transactionDbContext = transactionDbContext;
+        }
+
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
