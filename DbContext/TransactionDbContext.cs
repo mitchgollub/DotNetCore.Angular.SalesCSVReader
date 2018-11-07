@@ -17,7 +17,7 @@ namespace DotNetCore.Angular.SalesCSVReader
 
         private void LoadDataFromCSV()
         {
-            TextReader reader = new StreamReader("import.txt");
+            TextReader reader = new StreamReader("Data.csv");
             var csvReader = new CsvReader(reader);
             var records = csvReader.GetRecords<Transaction>();
 
