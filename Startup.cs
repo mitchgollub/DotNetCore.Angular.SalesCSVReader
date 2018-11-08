@@ -1,4 +1,5 @@
 using DotNetCore.Angular.SalesCSVReader.Repositories;
+using DotNetCore.Angular.SalesCSVReader.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,7 @@ namespace DotNetCore.Angular.SalesCSVReader
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<ISalesSummaryService, SalesSummaryService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

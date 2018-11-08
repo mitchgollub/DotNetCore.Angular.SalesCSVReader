@@ -16,6 +16,11 @@ namespace DotNetCore.Angular.SalesCSVReader.Repositories
             LoadDataFromCSV();
         }
 
+        public List<Transaction> Get()
+        {
+            return _transactions;
+        }
+
         private void LoadDataFromCSV()
         {
             TextReader reader = new StreamReader("Data.csv");
