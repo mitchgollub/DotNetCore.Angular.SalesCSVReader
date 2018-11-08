@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCore.Angular.SalesCSVReader.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetCore.Angular.SalesCSVReader.Controllers
@@ -9,11 +10,11 @@ namespace DotNetCore.Angular.SalesCSVReader.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly TransactionDbContext _transactionDbContext;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public SampleDataController(TransactionDbContext transactionDbContext)
+        public SampleDataController(ITransactionRepository transactionRepository)
         {
-            _transactionDbContext = transactionDbContext;
+            _transactionRepository = transactionRepository;
         }
 
         private static string[] Summaries = new[]
