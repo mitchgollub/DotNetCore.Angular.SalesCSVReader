@@ -2,23 +2,25 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<p *ngIf="!summaries"><em>Loading...</em></p>
 
-<table class='table' *ngIf="forecasts">
+<table class='table' *ngIf="summaries">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th>Sales Rep</th>
+      <th>Year to Date Sold</th>
+      <th>Month to Date Sold</th>
+      <th>Quarter to Date Sold</th>
+      <th>Inception to Date Sold</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.dateFormatted }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
+    <tr *ngFor="let summary of summaries">
+      <td>{{ summary.salesRep.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }}</td>
+      <td>{{ summary.y2DSold.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }}</td>
+      <td>{{ summary.m2DSold.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }}</td>
+      <td>{{ summary.q2DSold.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }}</td>
+      <td>{{ summary.i2DSold.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }}</td>
     </tr>
   </tbody>
 </table>
