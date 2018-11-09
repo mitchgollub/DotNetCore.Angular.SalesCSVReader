@@ -20,25 +20,35 @@ namespace DotNetCore.Angular.SalesCSVReader.Services
                 var repTransactions = transactions.Where(x => x.SalesRep == salesRep);
 
                 summary.Y2DSold = repTransactions.Where(x => x.Date >= new DateTime(dateTimeNow.Year, 1, 1))
-                                        .Select(x => x.Price)
+                                        .Select(x => CalculateTransaction(x))
                                         .Sum();
 
                 summary.M2DSold = repTransactions.Where(x => x.Date >= new DateTime(dateTimeNow.Year, dateTimeNow.Month, 1))
-                                        .Select(x => x.Price)
+                                        .Select(x => CalculateTransaction(x))
                                         .Sum();
 
                 summary.Q2DSold = repTransactions.Where(x => GetQuarter(x.Date) == GetQuarter(dateTimeNow))
-                                        .Select(x => x.Price)
+                                        .Select(x => CalculateTransaction(x))
                                         .Sum();
 
                 summary.I2DSold = repTransactions
-                                        .Select(x => x.Price)
+                                        .Select(x => CalculateTransaction(x))
                                         .Sum();
 
                 salesSummaries.Add(summary);
             }
 
             return salesSummaries;
+        }
+
+        private decimal CalculateTransaction(Transaction transaction) {
+            var absoluteValue = transaction.Price * transaction.Shares;
+
+            if (transaction.Type == "SELL") {
+                absoluteValue *= -1; 
+            }
+
+            return absoluteValue;
         }
 
         private int GetQuarter(DateTime date)

@@ -16,13 +16,25 @@ namespace DotNetCore.Angular.SalesCSVReader.Services
                 var summary = new AssetUnderManagement { SalesRep = salesRep };
 
                 summary.AssetAmount = transactions.Where(x => x.SalesRep == salesRep)
-                                        .Select(x => x.Price)
+                                        .Select(x => CalculateTransaction(x))
                                         .Sum();
 
                 assetSummaries.Add(summary);
             }
 
             return assetSummaries;
+        }
+
+        private decimal CalculateTransaction(Transaction transaction)
+        {
+            var absoluteValue = transaction.Price * transaction.Shares;
+
+            if (transaction.Type == "SELL")
+            {
+                absoluteValue *= -1;
+            }
+
+            return absoluteValue;
         }
     }
 }
