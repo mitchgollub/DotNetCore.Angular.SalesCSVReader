@@ -1,0 +1,23 @@
+<h1>Sales Rep Summary</h1>
+<p *ngIf="!summaries"><em>Loading...</em></p>
+
+<table class='table' *ngIf="summaries">
+  <thead>
+    <tr>
+      <th>Sales Rep</th>
+      <th>Year to Date Sold</th>
+      <th>Month to Date Sold</th>
+      <th>Quarter to Date Sold</th>
+      <th>Inception to Date Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let summary of summaries">
+      <td>{{ summary.salesRep }}</td>
+      <td>{{ summary.y2DSold }}</td>
+      <td>{{ summary.m2DSold }}</td>
+      <td>{{ summary.q2DSold }}</td>
+      <td>{{ summary.i2DSold }}</td>
+    </tr>
+  </tbody>
+</table>
