@@ -1,3 +1,17 @@
-<p>
-  assests-under-management-summary works!
-</p>
+<h1>Assets Under Management Summary</h1>
+<p *ngIf="!summaries"><em>Loading...</em></p>
+
+<table class='table' *ngIf="summaries">
+  <thead>
+    <tr>
+      <th>Sales Rep</th>
+      <th>Net Asset Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let summary of summaries">
+      <td>{{ summary.salesRep }}</td>
+      <td>${{ summary.assetAmount }}</td>
+    </tr>
+  </tbody>
+</table>

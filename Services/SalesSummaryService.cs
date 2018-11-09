@@ -13,21 +13,21 @@ namespace DotNetCore.Angular.SalesCSVReader.Services
             var dateTimeNow = DateTime.Now;
             var salesReps = transactions.Select(x => x.SalesRep).Distinct();
 
-            foreach(var salesRep in salesReps) 
+            foreach (var salesRep in salesReps)
             {
                 var summary = new SalesSummary { SalesRep = salesRep };
 
                 var repTransactions = transactions.Where(x => x.SalesRep == salesRep);
 
-                summary.Y2DSold = repTransactions.Where(x => x.Date > new DateTime(dateTimeNow.Year, 1, 1))
+                summary.Y2DSold = repTransactions.Where(x => x.Date >= new DateTime(dateTimeNow.Year, 1, 1))
                                         .Select(x => x.Price)
                                         .Sum();
 
-                summary.M2DSold = repTransactions.Where(x => x.Date > new DateTime(dateTimeNow.Year, dateTimeNow.Month, 1))
+                summary.M2DSold = repTransactions.Where(x => x.Date >= new DateTime(dateTimeNow.Year, dateTimeNow.Month, 1))
                                         .Select(x => x.Price)
                                         .Sum();
 
-                summary.Q2DSold = repTransactions.Where(x => x.Date > new DateTime(dateTimeNow.Year, 1, 1))
+                summary.Q2DSold = repTransactions.Where(x => GetQuarter(x.Date) == GetQuarter(dateTimeNow))
                                         .Select(x => x.Price)
                                         .Sum();
 
@@ -39,6 +39,18 @@ namespace DotNetCore.Angular.SalesCSVReader.Services
             }
 
             return salesSummaries;
+        }
+
+        private int GetQuarter(DateTime date)
+        {
+            if (date.Month >= 1 && date.Month <= 3)
+                return 1;
+            else if (date.Month >= 4 && date.Month <= 6)
+                return 2;
+            else if (date.Month >= 7 && date.Month <= 9)
+                return 3;
+            else
+                return 4;
         }
     }
 }
