@@ -28,6 +28,9 @@ namespace DotNetCore.Angular.SalesCSVReader.Repositories
             csvReader.Configuration.RegisterClassMap<TransactionMap>();
             var records = csvReader.GetRecords<Transaction>().ToArray();
             _transactions.AddRange(records);
+
+            reader.Dispose();
+            csvReader.Dispose();
         }
     }
 }

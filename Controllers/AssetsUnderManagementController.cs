@@ -13,19 +13,20 @@ namespace DotNetCore.Angular.SalesCSVReader.Controllers
     public class AssetsUnderManagementController : Controller
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IAssetsUnderManagementService _assetsUnderManagementService;
+        private readonly IReportCalculationService _reportCalculationService;
 
-        public AssetsUnderManagementController(ITransactionRepository transactionRepository, IAssetsUnderManagementService assetsUnderManagementService)
+        public AssetsUnderManagementController(ITransactionRepository transactionRepository, IReportCalculationService reportCalculationService)
         {
             _transactionRepository = transactionRepository;
-            _assetsUnderManagementService = assetsUnderManagementService;
+            _reportCalculationService = reportCalculationService;
         }
 
         [HttpGet()]
         public IActionResult GetAssetSummaries()
         {
             List<Transaction> transactions = _transactionRepository.Get();
-            var assetSummaries = _assetsUnderManagementService.Calculate(transactions);
+            var assetSummaries = new List<AssetUnderManagement>();
+            _reportCalculationService.Calculate(assetSummaries, transactions);
             return Ok(assetSummaries);
         }
     }

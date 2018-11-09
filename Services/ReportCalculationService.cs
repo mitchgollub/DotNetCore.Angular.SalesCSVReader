@@ -5,11 +5,10 @@ using DotNetCore.Angular.SalesCSVReader.Models;
 
 namespace DotNetCore.Angular.SalesCSVReader.Services
 {
-    public class SalesSummaryService : ISalesSummaryService
+    public class ReportCalculationService : IReportCalculationService
     {
-        public List<SalesSummary> Calculate(List<Transaction> transactions)
+        public List<SalesSummary> Calculate(List<SalesSummary> salesSummaries, List<Transaction> transactions)
         {
-            List<SalesSummary> salesSummaries = new List<SalesSummary>();
             var dateTimeNow = DateTime.Now;
             var salesReps = transactions.Select(x => x.SalesRep).Distinct();
 
@@ -39,6 +38,24 @@ namespace DotNetCore.Angular.SalesCSVReader.Services
             }
 
             return salesSummaries;
+        }
+
+        public List<AssetUnderManagement> Calculate(List<AssetUnderManagement> assetSummaries, List<Transaction> transactions)
+        {
+            var salesReps = transactions.Select(x => x.SalesRep).Distinct();
+
+            foreach (var salesRep in salesReps)
+            {
+                var summary = new AssetUnderManagement { SalesRep = salesRep };
+
+                summary.AssetAmount = transactions.Where(x => x.SalesRep == salesRep)
+                                        .Select(x => CalculateTransaction(x))
+                                        .Sum();
+
+                assetSummaries.Add(summary);
+            }
+
+            return assetSummaries;
         }
 
         private decimal CalculateTransaction(Transaction transaction) {

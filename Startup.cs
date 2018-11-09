@@ -25,8 +25,7 @@ namespace DotNetCore.Angular.SalesCSVReader
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<ITransactionRepository, TransactionRepository>();
-            services.AddTransient<ISalesSummaryService, SalesSummaryService>();
-            services.AddTransient<IAssetsUnderManagementService, AssetsUnderManagementService>();
+            services.AddTransient<IReportCalculationService, ReportCalculationService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

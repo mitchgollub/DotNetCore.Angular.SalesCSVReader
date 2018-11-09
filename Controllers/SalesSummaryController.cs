@@ -13,19 +13,20 @@ namespace DotNetCore.Angular.SalesCSVReader.Controllers
     public class SalesSummaryController : Controller
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly ISalesSummaryService _salesSummaryService;
+        private readonly IReportCalculationService _reportCalculationService;
 
-        public SalesSummaryController(ITransactionRepository transactionRepository, ISalesSummaryService salesSummaryService)
+        public SalesSummaryController(ITransactionRepository transactionRepository, IReportCalculationService reportCalculationService)
         {
             _transactionRepository = transactionRepository;
-            _salesSummaryService = salesSummaryService;
+            _reportCalculationService = reportCalculationService;
         }
 
         [HttpGet()]
         public IActionResult GetSalesSummaries()
         {
             List<Transaction> transactions = _transactionRepository.Get();
-            var salesSummaries = _salesSummaryService.Calculate(transactions);
+            var salesSummaries = new List<SalesSummary>();
+            _reportCalculationService.Calculate(salesSummaries, transactions);
             return Ok(salesSummaries);
         }
     }
